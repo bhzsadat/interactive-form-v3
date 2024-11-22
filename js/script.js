@@ -98,23 +98,63 @@ form.addEventListener('submit', (e) => {
 });
 
 
+// Accessibility
+const checks = actv.querySelectorAll('input[type="checkbox"]');
+checks.forEach(check => {
+    check.addEventListener('focus', (e) => {
+        actv.classList.add('focus');
+    });
+    check.addEventListener('blur', (e) => {
+        actv.classList.remove('focus');
+    });
+});
+
+
+
+
+
+
 // Helper functions
+
+// Helper function 'IF' invalid input
+function testIf(element, ev) {
+    const parent = element.parentElement;
+    ev.preventDefault();
+    parent.classList.add('not-valid');
+    parent.classList.remove('valid');
+    alert(parent.lastElementChild.innerHTML);
+}
+
+// Helper function for valid input
+function testElse(element, ev) {
+    const parent = element.parentElement;
+    parent.classList.add('valid');
+    parent.classList.remove('not-valid');
+    parent.lastElementChild.style.display = 'none';
+}
+
+// Vlidate name field
 function testName(element, ev) {
     const nwElement = element.value;
-    const tst = (/\w+/i).test(nwElement);
-    if (!tst) {
-        ev.preventDefault();
+    if (nwElement.trim() === '') {
+        testIf(element, ev);
+    } else {
+        testElse(element, ev);
     }
 }
 
+// Vlidate email field
 function testEmail(element, ev) {
     const nwElement = element.value;
     const tst = (/^\S+@\S+\.\S+$/).test(nwElement);
     if (!tst) {
-        ev.preventDefault();
+        testIf(element, ev);
+    } else {
+        testElse(element, ev);
     }
 }
 
+// Vlidate activity field
 function testActivity(element, ev) {
     const checkboxes = document.querySelectorAll('input[type="checkbox"]');
     let count = 0;
@@ -125,30 +165,46 @@ function testActivity(element, ev) {
     }
     if (!count) {
         ev.preventDefault();
+        element.classList.add('not-valid');
+        element.classList.remove('valid');
+        alert(element.lastElementChild.innerHTML);
+    } else {
+        element.classList.add('valid');
+        element.classList.remove('not-valid');
+        element.lastElementChild.style.display = 'none';
     }
 }
 
+// Vlidate card number field
 function testNum(element, ev) {
     const nwElement = element.value;
     const tst = (/\d{13,16}/).test(nwElement);
     if (!tst) {
-        ev.preventDefault();
+        testIf(element, ev);
+    } else {
+        testElse(element, ev);
     }
 }
 
+// Vlidate zipcode field
 function testZip(element, ev) {
     const nwElement = element.value;
     const tst = (/\d{5}/).test(nwElement);
     if (!tst) {
-        ev.preventDefault();
+        testIf(element, ev);
+    } else {
+        testElse(element, ev);
     }
 }
 
+// Vlidate cvv field
 function testCvv(element, ev) {
     const nwElement = element.value;
     const tst = (/\d{3}/).test(nwElement);
     if (!tst) {
-        ev.preventDefault();
+        testIf(element, ev);
+    } else {
+        testElse(element, ev);
     }
 }
 
