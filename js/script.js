@@ -101,11 +101,12 @@ form.addEventListener('submit', (e) => {
 // Accessibility
 const checks = actv.querySelectorAll('input[type="checkbox"]');
 checks.forEach(check => {
+    const parent = check.parentElement;
     check.addEventListener('focus', (e) => {
-        actv.classList.add('focus');
+        parent.classList.add('focus');
     });
     check.addEventListener('blur', (e) => {
-        actv.classList.remove('focus');
+        parent.classList.remove('focus');
     });
 });
 
@@ -122,7 +123,7 @@ function testIf(element, ev) {
     ev.preventDefault();
     parent.classList.add('not-valid');
     parent.classList.remove('valid');
-    alert(parent.lastElementChild.innerHTML);
+    parent.lastElementChild.style.display = 'block';
 }
 
 // Helper function for valid input
@@ -167,7 +168,7 @@ function testActivity(element, ev) {
         ev.preventDefault();
         element.classList.add('not-valid');
         element.classList.remove('valid');
-        alert(element.lastElementChild.innerHTML);
+        element.lastElementChild.style.display = 'block';
     } else {
         element.classList.add('valid');
         element.classList.remove('not-valid');
